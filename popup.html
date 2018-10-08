@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>download</title>
+  <style>
+    #kugouAudoMsg{
+      min-width: 200px;
+      min-height: 100px;
+    }
+    #kugouAudoMsg .downlaod{
+      display: inline-block;
+      cursor: pointer;
+      color: rgb(22,154,243)
+    }
+    #kugouAudoMsg .downlaod:hover{
+      text-decoration: underline;
+    }
+    #kugouAudoMsg .downlaodCOM{
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div id="kugouAudoMsg">
+    <p class="audoMsgName">歌名：加载中...</p>
+    <span class="downlaod downlaodCROS">下载（需跨域）</span>
+    <br>
+    <a class="downlaod downlaodCOM">右键另存为（不跨域）</a>
+  </div>
+</body>
+<script src="jquery-2.0.0.min.js"></script>
+<script src="popup.js"></script>
+</html>
