@@ -1,19 +1,27 @@
 {
-  "name":"kugouDownload",
-  "version":"1.0.0",
-  "description":"download kugou music",
-  "background": { 
-    "scripts": [ "jquery-2.0.0.min.js","background.js" ],
-    "persistent":false 
+  "name": "kugouDownload",
+  "version": "1.0.0",
+  "description": "download kugou music",
+  "background": {
+    "scripts": ["jquery-2.0.0.min.js", "background.js","popup.js"],
+    "persistent": false
   },
   "permissions": [
     "tabs",
+    "contextMenus",
     "http://www.kugou.com/song/",
     "https://www.kugou.com/song/",
     "http://wwwapi.kugou.com/"
   ],
-  "page_action":{
-    "default_popup":"popup.html",
+  "content_scripts": [
+    {
+      "matches": ["https://*/*", "*://*/*"],
+      "js": ["jquery-2.0.0.min.js", "content_script.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "page_action": {
+    "default_popup": "popup.html",
     "default_icon": {
       "19": "icon.png",
       "38": "icon.png"

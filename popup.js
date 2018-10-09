@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function getBlob(url) {
   return new Promise(resolve => {
     const xhr = new XMLHttpRequest()
-
     xhr.open('GET', url, true)
     xhr.responseType = 'blob'
     xhr.onload = () => {
@@ -15,19 +14,18 @@ function getBlob(url) {
         resolve(xhr.response)
       }
     }
-
     xhr.send()
   })
 }
 
-function saveAs(blob, filename) {
+function saveAs(blob, filename, type) {
   if (window.navigator.msSaveOrOpenBlob) {
     navigator.msSaveBlob(blob, filename)
   } else {
     const link = document.createElement('a')
     const body = document.querySelector('body')
 
-    link.href = window.URL.createObjectURL(blob)
+    link.href = type ? blob : window.URL.createObjectURL(blob)
     link.download = filename
 
     link.style.display = 'none'
@@ -40,9 +38,20 @@ function saveAs(blob, filename) {
   }
 }
 function download(url, filename) {
-  getBlob(url).then(blob => {
-    saveAs(blob, filename)
-  })
+  getBlob(url)
+    .then(blob => {
+      saveAs(blob, filename)
+    })
+    .catch(res => {
+      // 加载失败，查询页面DOM,获取下载地址
+      chrome.tabs.getSelected(null, function(tab) {
+        chrome.tabs.sendMessage(tab.id, { message: 'searchDom' }, function(
+          response
+        ) {
+          saveAs(response.src, '未命名', 1)
+        })
+      })
+    })
 }
 
 function getUrl() {
@@ -64,7 +73,6 @@ function getAudioMsg(data) {
       if (!res.err_code) {
         AudioData = res.data
         $('.audoMsgName').html('歌名：' + AudioData.audio_name)
-        $(".downlaodCOM").attr('href',AudioData.play_url)
       }
     }
   })
